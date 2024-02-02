@@ -260,3 +260,59 @@ dl dd {
     opacity: 1;
     transform: translate3d(0, 0, 0);
 }
+
+dd {
+    --lightness: 80%;
+    --highlighted: 1;
+    --highlight: hsl(var(--hue, 45) 80% var(--lightness));
+    background: transparent;
+}
+
+@supports (animation-timeline: view()) {
+    dd {
+        --highlighted: 0;
+        animation: highlight steps(1) both;
+        animation-timeline: view();
+        animation-range: entry 100% cover 10%;
+    }
+}
+
+
+dd span {
+    background: linear-gradient(120deg, var(--highlight, lightblue) 50%, transparent 50%) 110% 0 / 200% 100% no-repeat;
+    background-position: calc((1 - var(--highlighted)) * 110%) 0;
+    transition: background-position 1s;
+}
+
+dd::after {
+    content: attr(data-author);
+    display: grid;
+    place-items: center;
+    font-variant-numeric: tabular-nums;
+    font-weight: bold;
+    position: absolute;
+    width: 32px;
+    aspect-ratio: 1;
+    border-radius: 12px;
+    background: var(--highlight);
+    font-weight: 80;
+    top: 0;
+    left: 100%;
+    translate: 50% 0;
+    font-size: 0.875rem;
+    scale: var(--highlighted);
+    transition: scale 0.2s;
+  }
+
+  @keyframes highlight {
+    to {
+        --highlighted: 1;
+    }
+  }
+  
+  ::view-transition-new(root) {
+      animation: grow 1s;
+  }
+  ::view-transition-old(root) {
+      animation: none;
+  }
