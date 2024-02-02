@@ -15,3 +15,27 @@ function showDetails() {
 }
 
 showDetails()
+
+
+function activeScroll() {
+
+    const sectionList = document.querySelectorAll('section')
+    
+    function animatedScroll() {
+        sectionList.forEach((item, index) => {
+            const topDistance = item.getBoundingClientRect().top
+            const isSectionVisible = (topDistance - (window.innerHeight * 0.6)) < 0
+            if(isSectionVisible) {
+                item.classList.add('ativo')
+            } else {
+                item.classList.remove('ativo')
+            }
+        })
+    }   
+    
+    animatedScroll()
+    
+    window.addEventListener('scroll', animatedScroll)
+}
+
+activeScroll()
